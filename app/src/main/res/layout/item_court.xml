@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:padding="0dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:strokeColor="#B0BEC5"
+    app:strokeWidth="1dp"
+    android:backgroundTint="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <!-- Court Name -->
+        <TextView
+            android:id="@+id/courtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Court Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#0D47A1"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textSize="15sp"
+            android:textColor="#1976D2"
+            android:layout_marginTop="4dp"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif" />
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:textColor="#4CAF50"
+            android:layout_marginTop="2dp"
+            android:textAlignment="center" />
+
+        <!-- Rate -->
+        <TextView
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₱0.00/hr"
+            android:textSize="15sp"
+            android:textColor="#212121"
+            android:layout_marginTop="4dp"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-medium" />
+
+
+        <!-- Court Image -->
+        <ImageView
+            android:id="@+id/courtImage"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Court Image"
+            android:clipToOutline="true" />
+
+        <!-- Rent Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rent Now"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
+            app:iconPadding="8dp"
+            android:iconTint="@android:color/white"
+            style="@style/Widget.MaterialComponents.Button"
+            android:backgroundTint="#2196F3"
+            app:cornerRadius="12dp" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
