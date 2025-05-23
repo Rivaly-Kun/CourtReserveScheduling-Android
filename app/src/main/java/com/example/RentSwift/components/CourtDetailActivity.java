@@ -1,16 +1,13 @@
-package com.example.courtreserve.components;
+package com.example.RentSwift.components;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.example.courtreserve.HomeActivity;
-import com.example.courtreserve.Profile;
-import com.example.courtreserve.R;
+import com.example.RentSwift.HomeActivity;
+import com.example.RentSwift.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CourtDetailActivity extends AppCompatActivity {
 
@@ -50,7 +52,7 @@ public class CourtDetailActivity extends AppCompatActivity {
     private DatabaseReference courtRef, reservationRef;
     private ImageView BackButton;
 
-    private List<Map<String, Long>> existingReservations = new ArrayList<>();
+    private final List<Map<String, Long>> existingReservations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

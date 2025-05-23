@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.courtreserve"
+    namespace = "com.example.RentSwift"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.courtreserve"
+        applicationId = "com.example.RentSwift"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

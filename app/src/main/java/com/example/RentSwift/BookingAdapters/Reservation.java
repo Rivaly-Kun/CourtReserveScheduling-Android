@@ -1,4 +1,4 @@
-package com.example.courtreserve.BookingAdapters;
+package com.example.RentSwift.BookingAdapters;
 
 public class Reservation {
     public String courtName;

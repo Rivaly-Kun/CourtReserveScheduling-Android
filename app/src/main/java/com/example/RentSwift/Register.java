@@ -1,4 +1,4 @@
-package com.example.courtreserve;
+package com.example.RentSwift;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.courtreserve;
+package com.example.RentSwift;
 
 import org.junit.Test;
 

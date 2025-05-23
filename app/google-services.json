@@ -1,22 +1,47 @@
 {
   "project_info": {
-    "project_number": "416725094441",
-    "firebase_url": "https://courtreservesystem-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "courtreservesystem",
-    "storage_bucket": "courtreservesystem.firebasestorage.app"
+    "project_number": "157736544071",
+    "firebase_url": "https://primeroastweb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "primeroastweb",
+    "storage_bucket": "primeroastweb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:416725094441:android:4f15c10642c625fe728c38",
+        "mobilesdk_app_id": "1:157736544071:android:1331b883a80d8ffe344e62",
         "android_client_info": {
-          "package_name": "com.example.courtreserve"
+          "package_name": "com.example.RentSwift"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAhvOuBpJYR53NpnC04kCoJIecIyBpmTCM"
+          "current_key": "AIzaSyCQfPGk0pCOAj5mKno0yYRx7GMhXRUnsj4"
+        },
+        {
+          "current_key": "AIzaSyBTG32VBropxYIg_btJbawdGHgr8PqiTww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157736544071:android:724d8cccff5b0618344e62",
+        "android_client_info": {
+          "package_name": "com.example.nimbusstack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQfPGk0pCOAj5mKno0yYRx7GMhXRUnsj4"
+        },
+        {
+          "current_key": "AIzaSyBTG32VBropxYIg_btJbawdGHgr8PqiTww"
         }
       ],
       "services": {

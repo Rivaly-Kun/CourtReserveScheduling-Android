@@ -1,4 +1,4 @@
-package com.example.courtreserve;
+package com.example.RentSwift;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import com.example.courtreserve.components.CourtDetailActivity;
+import com.example.RentSwift.components.CourtDetailActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,15 +24,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourtAdapter extends RecyclerView.Adapter<CourtAdapter.ViewHolder> {
 
-    private List<Court> courtList;
+    private final List<Court> courtList;
     private Context context;
 
     public CourtAdapter(List<Court> courtList) {

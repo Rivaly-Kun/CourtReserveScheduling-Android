@@ -1,4 +1,4 @@
-    package com.example.courtreserve.components;
+    package com.example.RentSwift.components;
 
     import android.content.Intent;
     import android.os.Bundle;
@@ -14,12 +14,11 @@
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
-    import com.example.courtreserve.HomeActivity;
-    import com.example.courtreserve.MainActivity;
-    import com.example.courtreserve.Profile;
-    import com.example.courtreserve.R;
-    import com.example.courtreserve.BookingAdapters.ReservationAdapter;
-    import com.example.courtreserve.BookingAdapters.Reservation;
+    import com.example.RentSwift.HomeActivity;
+    import com.example.RentSwift.Profile;
+    import com.example.RentSwift.R;
+    import com.example.RentSwift.BookingAdapters.ReservationAdapter;
+    import com.example.RentSwift.BookingAdapters.Reservation;
     import com.google.android.material.navigation.NavigationView;
     import com.google.firebase.auth.FirebaseAuth;
     import com.google.firebase.database.*;

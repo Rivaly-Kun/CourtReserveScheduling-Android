@@ -1,4 +1,4 @@
-package com.example.courtreserve.components;
+package com.example.RentSwift.components;
 
 import android.os.Bundle;
 
@@ -8,7 +8,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.courtreserve.R;
+import com.example.RentSwift.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
