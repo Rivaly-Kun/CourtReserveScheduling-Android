@@ -24,7 +24,6 @@ import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -32,7 +31,9 @@ public class HomeActivity extends AppCompatActivity {
     private List<Court> courtList;
     private DatabaseReference databaseReference;
 
-    private ImageButton btnProfile;
+    private ImageButton btnProfile, btnMenu;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +41,12 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
-
-        DrawerLayout drawerLayout;
-        ImageButton btnMenu;
-        NavigationView navView;
-
+        // Navigation
         drawerLayout = findViewById(R.id.drawerLayout);
         btnMenu = findViewById(R.id.btnMenu);
-        navView = findViewById(R.id.navigationView);
+        navigationView = findViewById(R.id.navigationView);
         btnProfile = findViewById(R.id.btnProfile);
 
-
-
-// Open drawer when menu button is clicked
         btnMenu.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
         btnProfile.setOnClickListener(v -> {
@@ -60,35 +54,29 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-// Handle drawer item clicks
-        navView.setNavigationItemSelectedListener(item -> {
+        navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-
             if (id == R.id.nav_home) {
-                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
             } else if (id == R.id.nav_bookings) {
-                startActivity(new Intent(HomeActivity.this, BookingsActivity.class));
+                startActivity(new Intent(this, BookingsActivity.class));
+            } else if (id == R.id.nav_history) {
+                startActivity(new Intent(this, HistoryActivity.class));
             }
-
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
 
-
-
-
-
-        // RecyclerView setup
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewCourts);
+        // RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewCourts);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         recyclerView.setHasFixedSize(true);
-
 
         courtList = new ArrayList<>();
         adapter = new CourtAdapter(courtList);
         recyclerView.setAdapter(adapter);
 
-        // Firebase setup
+        // Firebase
         databaseReference = FirebaseDatabase.getInstance().getReference("courts");
         checkInternetSpeed();
         loadCourts();

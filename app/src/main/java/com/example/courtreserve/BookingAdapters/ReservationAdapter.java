@@ -21,32 +21,59 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
 
     private final List<Reservation> reservationList;
     private final OnCancelClickListener cancelClickListener;
+    private final boolean isHistory;
 
-    public ReservationAdapter(List<Reservation> reservationList, OnCancelClickListener listener) {
+    public ReservationAdapter(List<Reservation> reservationList, OnCancelClickListener listener, boolean isHistory) {
         this.reservationList = reservationList;
         this.cancelClickListener = listener;
+        this.isHistory = isHistory;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return isHistory ? 1 : 0;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_reservation, parent, false);
+        int layout = (viewType == 1) ? R.layout.item_history : R.layout.item_reservation;
+        View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Reservation res = reservationList.get(position);
-        holder.courtName.setText(res.courtName);
-        holder.startTime.setText("Start: " + res.startTimeReadable);
-        holder.endTime.setText("End: " + res.endTimeReadable);
-        holder.payment.setText("Payment: ₱" + res.payment); // ✅ Set payment
 
-        holder.cancelButton.setOnClickListener(v -> {
-            if (cancelClickListener != null && res.getId() != null) {
-                cancelClickListener.onCancelClick(res.getId());
+        holder.courtName.setText(res.getCourtName());
+        holder.startTime.setText("Start: " + res.getStartTimeReadable());
+        holder.endTime.setText("End: " + res.getEndTimeReadable());
+        holder.payment.setText("Payment: ₱" + res.getPayment());
+
+        if (isHistory) {
+            if (holder.status != null) {
+                if (res.getPayment() > 0) {
+                    holder.status.setText("Status: Paid");
+                    holder.status.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+                } else {
+                    holder.status.setText("Status: Unpaid");
+                    holder.status.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark));
+                }
             }
-        });
+            if (holder.cancelButton != null) {
+                holder.cancelButton.setVisibility(View.GONE);
+            }
+        } else {
+            if (cancelClickListener != null && res.getId() != null) {
+                holder.cancelButton.setVisibility(View.VISIBLE);
+                holder.cancelButton.setOnClickListener(v -> cancelClickListener.onCancelClick(res.getId()));
+            } else {
+                if (holder.cancelButton != null) {
+                    holder.cancelButton.setVisibility(View.GONE);
+                }
+            }
+        }
     }
 
     @Override
@@ -55,7 +82,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView courtName, startTime, endTime, payment; // ✅ Add payment
+        TextView courtName, startTime, endTime, payment, status;
         Button cancelButton;
 
         public ViewHolder(View itemView) {
@@ -63,8 +90,9 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             courtName = itemView.findViewById(R.id.courtNameText);
             startTime = itemView.findViewById(R.id.startTimeText);
             endTime = itemView.findViewById(R.id.endTimeText);
-            payment = itemView.findViewById(R.id.paymentText); // ✅ Bind view
-            cancelButton = itemView.findViewById(R.id.btnCancelReservation);
+            payment = itemView.findViewById(R.id.paymentText);
+            status = itemView.findViewById(R.id.statusText); // only in history layout
+            cancelButton = itemView.findViewById(R.id.btnCancelReservation); // only in reservation layout
         }
     }
 }

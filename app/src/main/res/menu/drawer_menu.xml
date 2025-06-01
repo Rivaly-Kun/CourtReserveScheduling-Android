@@ -6,8 +6,12 @@
        />
     <item
         android:id="@+id/nav_bookings"
-        android:title="📅 My Bookings"
+        android:title="📅 Bookings"
          />
 
+    <item
+        android:id="@+id/nav_history"
+        android:title="📜 History"
+        />
 
 </menu>
