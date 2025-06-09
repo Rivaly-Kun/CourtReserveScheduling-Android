@@ -53,18 +53,22 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
 
         if (isHistory) {
             if (holder.status != null) {
-                if (res.getPayment() > 0) {
-                    holder.status.setText("Status: Paid");
-                    holder.status.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
-                } else {
+                String paymentStatus = res.getPaymentStatus(); // ✅ Make sure this getter exists
+
+                if ("not yet paid".equalsIgnoreCase(paymentStatus)) {
                     holder.status.setText("Status: Unpaid");
                     holder.status.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark));
+                } else {
+                    holder.status.setText("Status: Paid");
+                    holder.status.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
                 }
             }
+
             if (holder.cancelButton != null) {
                 holder.cancelButton.setVisibility(View.GONE);
             }
-        } else {
+        }
+        else {
             if (cancelClickListener != null && res.getId() != null) {
                 holder.cancelButton.setVisibility(View.VISIBLE);
                 holder.cancelButton.setOnClickListener(v -> cancelClickListener.onCancelClick(res.getId()));

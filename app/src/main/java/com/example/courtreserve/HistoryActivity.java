@@ -85,7 +85,7 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
         String currentUserId = currentUser.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("history");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("payments");
 
         Log.d("HistoryActivity", "Fetching history for UID: " + currentUserId);
 
@@ -100,7 +100,7 @@ public class HistoryActivity extends AppCompatActivity {
                             Reservation reservation = child.getValue(Reservation.class);
 
                             if (reservation != null) {
-                                Log.d("HistoryActivity", "Found reservation: " + reservation.getCourtName());
+                                Log.d("HistoryActivity", "Found reservation: " + reservation.getPaymentStatus());
 
                                 if (reservation.getEndTime() < now) {
                                     reservationList.add(reservation);

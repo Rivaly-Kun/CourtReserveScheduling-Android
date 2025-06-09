@@ -39,10 +39,11 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext(); // Initialize context here
+        context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.item_court, parent, false);
         return new ViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Court court = courtList.get(position);
@@ -53,21 +54,16 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtAdapter.ViewHolder> 
 
         String status = court.getStatus();
 
-        // Maintenance case
         if ("Maintenance".equalsIgnoreCase(status)) {
             holder.rentButton.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
             holder.status.setText("Under Maintenance");
             holder.status.setTextColor(Color.RED);
             holder.rentButton.setVisibility(View.GONE);
-
-            // Reserved case
         } else if ("Reserved".equalsIgnoreCase(status)) {
             holder.rentButton.setVisibility(View.VISIBLE);
             holder.rentButton.setText("View");
             holder.rentButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
             holder.status.setTextColor(Color.parseColor("#FFA000"));
-
-            // Available case
         } else {
             holder.rentButton.setVisibility(View.VISIBLE);
             holder.rentButton.setText("Rent");
@@ -84,28 +80,54 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtAdapter.ViewHolder> 
             holder.imageView.setImageResource(R.drawable.logo);
         }
 
-        // 👉 Here is the ONLY adjusted part
         holder.rentButton.setOnClickListener(v -> {
             String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(currentUserId);
 
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        String userStatus = snapshot.child("status").getValue(String.class);
+                public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                    if (userSnapshot.exists()) {
+                        String userStatus = userSnapshot.child("status").getValue(String.class);
 
                         if (userStatus != null && userStatus.equalsIgnoreCase("verified")) {
-                            // ✅ Verified user: continue to court detail
-                            Intent intent = new Intent(context, CourtDetailActivity.class);
-                            intent.putExtra("courtId", court.getId());
-                            intent.putExtra("name", court.getCourtName());
-                            intent.putExtra("location", court.getLocation());
-                            intent.putExtra("status", court.getStatus());
-                            intent.putStringArrayListExtra("imageUrls", new ArrayList<>(court.getImages()));
-                            context.startActivity(intent);
-                        } else {
+                            // Check if user has unpaid payments
+                            DatabaseReference paymentsRef = FirebaseDatabase.getInstance().getReference("payments");
+                            paymentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot paymentsSnapshot) {
+                                    boolean hasUnpaid = false;
 
+                                    for (DataSnapshot paymentSnapshot : paymentsSnapshot.getChildren()) {
+                                        String uid = paymentSnapshot.child("userId").getValue(String.class);
+                                        String paymentStatus = paymentSnapshot.child("paymentStatus").getValue(String.class);
+
+                                        if (currentUserId.equals(uid) && "not yet paid".equalsIgnoreCase(paymentStatus)) {
+                                            hasUnpaid = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (hasUnpaid) {
+                                        Toast.makeText(context, "You have unsettled payments. Please pay before renting.", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        // Proceed to court detail
+                                        Intent intent = new Intent(context, CourtDetailActivity.class);
+                                        intent.putExtra("courtId", court.getId());
+                                        intent.putExtra("name", court.getCourtName());
+                                        intent.putExtra("location", court.getLocation());
+                                        intent.putExtra("status", court.getStatus());
+                                        intent.putStringArrayListExtra("imageUrls", new ArrayList<>(court.getImages()));
+                                        context.startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Toast.makeText(context, "Error checking payment status.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
                             Toast.makeText(context, "You need to be verified before you can rent.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
@@ -121,14 +143,14 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtAdapter.ViewHolder> 
         });
     }
 
-
+    // ✅ Moved this OUTSIDE onBindViewHolder
     @Override
     public int getItemCount() {
         return courtList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView courtName, location, status, rate; // 👈 Add 'rate' here
+        TextView courtName, location, status, rate;
         ImageView imageView;
         MaterialButton rentButton;
 
@@ -137,10 +159,9 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtAdapter.ViewHolder> 
             courtName = itemView.findViewById(R.id.courtName);
             location = itemView.findViewById(R.id.location);
             status = itemView.findViewById(R.id.status);
-            rate = itemView.findViewById(R.id.rate); // 👈 This works now
+            rate = itemView.findViewById(R.id.rate);
             imageView = itemView.findViewById(R.id.courtImage);
             rentButton = itemView.findViewById(R.id.rentButton);
         }
     }
-
 }
